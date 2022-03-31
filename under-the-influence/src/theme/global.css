@@ -1,0 +1,39 @@
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+h2 {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 900;
+  font-size: 64px;
+  text-align: center;
+  letter-spacing: -0.07em;
+  color: #000;
+}
+
+p {
+  color: #353535;
+}
+
+a {
+  text-decoration: none;
+}
+/*# sourceMappingURL=global.css.map */

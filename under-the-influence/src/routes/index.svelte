@@ -15,6 +15,7 @@
 </script>
 
 <script>
+import Logo from "../components/Logo.svelte";
 import Button from "../../src/components/Button.svelte";
 
 	export let result;
@@ -28,10 +29,17 @@ import Button from "../../src/components/Button.svelte";
 	
 	<p>{result}</p>
 	<p>{result1}</p> -->
+	<svelte:head>
+		<title>Under the Influence</title>
+	</svelte:head>
 <main>
 	<h1>Under the influence</h1>
-	<img src="logo.svg" alt="under the influence logo">
-	<Button	text="START PLAYING" type="white" link="/game/choose-game"/>
+
+		<div class="logo-container">
+			<Logo />
+		</div>
+
+	<Button	text="START PLAYING" type="white" link="/game/choose-game" width="422"/>
 </main>
 
 
@@ -39,7 +47,7 @@ import Button from "../../src/components/Button.svelte";
 h1{
 	display: none;
 }
-img {
+.logo-container {
 	margin-bottom: 96px;
 }
 main {
