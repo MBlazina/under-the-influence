@@ -31,7 +31,7 @@ import Button from "../../src/components/Button.svelte";
 <main>
 	<h1>Under the influence</h1>
 	<img src="logo.svg" alt="under the influence logo">
-	<Button	text="START PLAYING" type="white" link="/choose-game"/>
+	<Button	text="START PLAYING" type="white" link="/game/choose-game"/>
 </main>
 
 
@@ -52,4 +52,5 @@ main {
 		align-items: center;
 		flex-direction: column;
 	} 
+
 </style>

@@ -1,10 +1,9 @@
-
 <script>
-  import '../global.css'
+	import '../global.css';
 </script>
-<slot></slot>
 
+
+<slot />
 
 <style>
-  
 </style>
