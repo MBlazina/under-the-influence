@@ -6,7 +6,7 @@
 
 <a class={type} href={link}>{text}</a>
 
-<style>
+<style lang="scss">
 	a {
 		border: none;
 		width: 422px;
@@ -24,6 +24,9 @@
 		letter-spacing: -0.07em;
 		color: #000000;
 		font-family: 'Roboto', sans-serif;
+    &.red {
+      background: red;
+    }
 	}
 	.white {
 		background: #ffffff;
