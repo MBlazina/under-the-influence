@@ -32,15 +32,17 @@ import Button from "../../src/components/Button.svelte";
 	<svelte:head>
 		<title>Under the Influence</title>
 	</svelte:head>
-<main>
-	<h1>Under the influence</h1>
-
-		<div class="logo-container">
-			<Logo />
-		</div>
-
-	<Button	text="START PLAYING" type="white" link="/game/choose-game" width="422"/>
-</main>
+<div class="wrapper">
+	<main>
+		<h1>Under the influence</h1>
+	
+			<div class="logo-container">
+				<Logo />
+			</div>
+	
+		<Button	text="START PLAYING" type="white" link="/choose-game" width="422"/>
+	</main>
+</div>
 
 
 <style>
@@ -50,7 +52,7 @@ h1{
 .logo-container {
 	margin-bottom: 96px;
 }
-main {
+.wrapper {
 		width: 100%;
 		height: 100vh;
 		background: linear-gradient(
@@ -58,7 +60,6 @@ main {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		flex-direction: column;
 	} 
 
 </style>

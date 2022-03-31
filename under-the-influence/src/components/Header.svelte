@@ -4,14 +4,12 @@ import Logo from "./Logo.svelte";
 
 </script>
 <header>
-  <div class="logo-container">
-    <Logo />
-  </div>
-  <Button type="discord" text="JOIN OUR DISCORD"/>
+  <slot></slot>
 </header>
 
 <style>
   header {
+    height: 106px;
     width: 100%;
     top: 0;
     left: 0;
@@ -19,7 +17,7 @@ import Logo from "./Logo.svelte";
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 21px 92px;
+    padding: 21px 0px;
   }
   .logo-container {
     height: 51px;
