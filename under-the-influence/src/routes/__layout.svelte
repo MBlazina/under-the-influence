@@ -3,14 +3,13 @@
 </script>
 
 <div class="container">
-  <slot />
+	<slot />
 </div>
 
 <style>
-    .container {
-    height: 100vh;
-    width: 100%;
-
-    
-  }
+	.container {
+		height: 100vh;
+		width: 100%;
+		padding: 0 15px;
+	}
 </style>
