@@ -59,10 +59,85 @@
 	<form on:submit|preventDefault class="players-form" action="">
 		<div class="inputWrapper">
 			<input type="text" placeholder="Player 1" />
-			<div class="removeIcon">X</div>
+			<div class="removeIcon" />
 		</div>
-		<input type="submit" />
-	</form>
 
-	<button on:click={handleAppend}>Add player</button>
+		<button class="add-players-btn" on:click={handleAppend}>Add a player</button>
+		<input class="start-game-btn" type="submit" value="START THE GAME" />
+	</form>
 </main>
+
+<style lang="scss">
+	.inputWrapper {
+		position: relative;
+		display: flex;
+		align-items: center;
+		margin: 8px 0;
+		&:hover {
+			.removeIcon {
+				display: block;
+			}
+		}
+	}
+	input {
+		height: 64px;
+		border: 1px solid $grey;
+		border-radius: 12px;
+		padding: 0 26px;
+		min-width: 422px;
+	}
+	.removeIcon {
+		display: none;
+		position: absolute;
+		right: 26px;
+		width: 24px;
+		height: 24px;
+		background-image: url('/icons/add.svg');
+		transform: rotate(45deg);
+		cursor: pointer;
+	}
+	.add-players-btn {
+		color: $dark-blue;
+		font-family: 'Roboto';
+		font-style: normal;
+		font-weight: 900;
+		font-size: 18px;
+		/* or 14px */
+		background: none;
+		border: none;
+		text-align: center;
+		cursor: pointer;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 25px auto;
+		&::before {
+			display: block;
+			width: 24px;
+			height: 24px;
+			content: url('/icons/add.svg');
+		}
+		
+	}
+	.start-game-btn {
+			border: none;
+			width: auto;
+			height: 64px;
+			padding: 0 64px;
+			background: #ffffff;
+			border-radius: 12px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			text-decoration: none;
+			font-family: 'Roboto';
+			font-style: normal;
+			font-weight: 900;
+			font-size: 18px;
+
+			background: $dark-blue;
+			color: $white;
+
+			cursor: pointer;
+		}
+</style>
