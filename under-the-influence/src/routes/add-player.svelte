@@ -23,16 +23,19 @@
 		let inputWrapper = document.querySelector('.inputWrapper');
 		let newInput = inputWrapper.cloneNode(true);
 
-		players.append(newInput);
+		players.prepend(newInput);
 		addPlaceholder();
 
 		addRemove();
 	}
 
 	function removePlayer() {
-		console.log(this.parentElement);
-		this.parentElement.remove();
-		addPlaceholder();
+		let currentPlayersNumber = document.querySelectorAll('.inputWrapper').length;
+		if (currentPlayersNumber > 1) {
+			console.log(this.parentElement);
+			this.parentElement.remove();
+			addPlaceholder();
+		}
 	}
 	function addRemove() {
 		let removeIcons = document.querySelectorAll('.removeIcon');
@@ -58,7 +61,8 @@
 			<input type="text" placeholder="Player 1" />
 			<div class="removeIcon">X</div>
 		</div>
+		<input type="submit" />
 	</form>
-	<input type="submit" />
+
 	<button on:click={handleAppend}>Add player</button>
 </main>
