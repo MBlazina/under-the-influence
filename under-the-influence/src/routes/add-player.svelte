@@ -3,7 +3,7 @@
 	import Logo from '../components/Logo.svelte';
 	import Header from '../components/Header.svelte';
 	import { onMount } from 'svelte';
-	import { name } from '../stores/players.js';
+	import { players } from '../stores/players.js';
 
 	let numPlayers = 1;
 
@@ -17,13 +17,11 @@
 
 	function handleAppend() {
 		let players = document.querySelector('.players-form');
-		let currentPlayers = document.querySelectorAll('.inputWrapper').length;
-		console.log(currentPlayers);
-
 		let inputWrapper = document.querySelector('.inputWrapper');
 		let newInput = inputWrapper.cloneNode(true);
+		newInput.querySelector('input').value = '';
 
-		players.prepend(newInput);
+		players.append(newInput);
 		addPlaceholder();
 
 		addRemove();
@@ -32,7 +30,6 @@
 	function removePlayer() {
 		let currentPlayersNumber = document.querySelectorAll('.inputWrapper').length;
 		if (currentPlayersNumber > 1) {
-			console.log(this.parentElement);
 			this.parentElement.remove();
 			addPlaceholder();
 		}
@@ -43,7 +40,25 @@
 			removeIcons[i].addEventListener('click', removePlayer);
 		}
 	}
-	onMount(() => {});
+	
+	let addedPlayers = [];
+	$: playing = addedPlayers.length;
+	let playersSet = false;
+	function handleSubmit() {
+		addedPlayers = [];
+		const tempPlayers = document.querySelectorAll('.player-input');
+
+		for (let i = 0; i < tempPlayers.length; i++) {
+			if (tempPlayers[i].value) {
+				addedPlayers.push(tempPlayers[i].value);
+			}
+		}
+		console.log(addedPlayers);
+		playersSet = true;
+		$players.update = true;
+		$players = [...$players, addedPlayers];
+	}
+
 </script>
 
 <svelte:head>
@@ -54,17 +69,21 @@
 	<Header>
 		<Logo />
 	</Header>
+	<p>players set: {$players} ---- {$players.length}</p>
 	<h2>Add players</h2>
 	<span>{numPlayers}</span>
-	<form on:submit|preventDefault class="players-form" action="">
+	<form id="players" on:submit|preventDefault={handleSubmit} class="players-form" action="">
 		<div class="inputWrapper">
-			<input type="text" placeholder="Player 1" />
+			<input type="text" placeholder="Player 1" class="player-input" />
 			<div class="removeIcon" />
 		</div>
-
-		<button class="add-players-btn" on:click={handleAppend}>Add a player</button>
-		<input class="start-game-btn" type="submit" value="START THE GAME" />
 	</form>
+	<button class="add-players-btn" on:click={handleAppend}>Add a player</button>
+	<input class="start-game-btn" form="players" type="submit" value="START THE GAME" />
+	{#if playersSet == true && playing < 2}
+	<p>Add at least two players {playing}</p>
+	{/if}
+	
 </main>
 
 <style lang="scss">
@@ -115,29 +134,29 @@
 			display: block;
 			width: 24px;
 			height: 24px;
+			margin-right: 8px;
 			content: url('/icons/add.svg');
 		}
-		
 	}
 	.start-game-btn {
-			border: none;
-			width: auto;
-			height: 64px;
-			padding: 0 64px;
-			background: #ffffff;
-			border-radius: 12px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			text-decoration: none;
-			font-family: 'Roboto';
-			font-style: normal;
-			font-weight: 900;
-			font-size: 18px;
+		border: none;
+		width: auto;
+		height: 64px;
+		padding: 0 64px;
+		background: #ffffff;
+		border-radius: 12px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-decoration: none;
+		font-family: 'Roboto';
+		font-style: normal;
+		font-weight: 900;
+		font-size: 18px;
 
-			background: $dark-blue;
-			color: $white;
+		background: $dark-blue;
+		color: $white;
 
-			cursor: pointer;
-		}
+		cursor: pointer;
+	}
 </style>

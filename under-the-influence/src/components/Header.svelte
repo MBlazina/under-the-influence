@@ -17,7 +17,7 @@ import Logo from "./Logo.svelte";
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 21px 0px;
+    padding: 21px 15px;
   }
   .logo-container {
     height: 51px;

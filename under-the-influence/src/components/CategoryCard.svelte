@@ -2,9 +2,10 @@
 	export let title = 'Name of game';
 	export let description = 'Description of game';
 	export let type = 'never-have-i-ever';
+  export let link = 'add-player';
 </script>
 
-<a href="/" class={type}>
+<a href="/{link}" class={type}>
 	<div class="category-icon {type}" />
 	<div class="content">
 		<h3>{title}</h3>

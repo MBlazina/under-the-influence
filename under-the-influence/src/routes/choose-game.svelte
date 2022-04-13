@@ -3,6 +3,7 @@
 	import Button from '../components/Button.svelte';
 	import Logo from '../components/Logo.svelte';
 	import Header from '../components/Header.svelte';
+	import { playersSet } from '../stores/players';
 </script>
 
 <svelte:head>
@@ -18,6 +19,7 @@
 		<CategoryCard
 			title="Never have I ever"
 			description="A drinking game in which players take turns asking other players about things they have not done."
+			link={$playersSet ? 'never-have-i-ever' : 'add-player'}
 		/>
 		<CategoryCard
 			title="Get to know eachother"
@@ -65,7 +67,6 @@
 </main>
 
 <style lang="scss">
-	
 	h2 {
 		display: block;
 		margin-bottom: 36px;
