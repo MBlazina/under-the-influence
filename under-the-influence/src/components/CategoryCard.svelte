@@ -1,11 +1,19 @@
 <script>
+import { activeGame, playersAdded } from "../stores/players";
+
+
+
+
 	export let title = 'Name of game';
 	export let description = 'Description of game';
-	export let type = 'never-have-i-ever';
+	export let type = 'choose-game';
   export let link = 'add-player';
+
+  
 </script>
 
-<a href="/{link}" class={type}>
+<!-- <a href="/{link}" class={type}> -->
+<a href={$playersAdded == false ? '/add-player' : $activeGame} class={type} on:click data-gamemode={type}>
 	<div class="category-icon {type}" />
 	<div class="content">
 		<h3>{title}</h3>

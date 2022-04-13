@@ -3,7 +3,12 @@
 	import Button from '../components/Button.svelte';
 	import Logo from '../components/Logo.svelte';
 	import Header from '../components/Header.svelte';
-	import { playersSet } from '../stores/players';
+	import { playersAdded, activeGame } from '../stores/players';
+
+	function handleChooseGame(){
+		console.log(this.dataset.gamemode);
+		$activeGame = this.dataset.gamemode;
+	}
 </script>
 
 <svelte:head>
@@ -19,32 +24,39 @@
 		<CategoryCard
 			title="Never have I ever"
 			description="A drinking game in which players take turns asking other players about things they have not done."
-			link={$playersSet ? 'never-have-i-ever' : 'add-player'}
-		/>
+			type="never-have-i-ever"
+			on:click={handleChooseGame}
+		
+		/>	<!-- link={$activeGame == '' ? 'add-player' : 'never-have-i-ever'} -->
 		<CategoryCard
 			title="Get to know eachother"
 			description="A drinking game perfect for players who dont know eachother."
 			type="get-to-know-each-other"
+			on:click={handleChooseGame}
 		/>
 		<CategoryCard
 			title="Blackout Express"
 			description="A drinking game in which players are given an amount of shots to drink."
 			type="blackout-express"
+			on:click={handleChooseGame}
 		/>
 		<CategoryCard
 			title="Dare or drink Online"
 			description="A drinking game made for dares to do online infront of the camera"
 			type="dare-or-drink"
+			on:click={handleChooseGame}
 		/>
 		<CategoryCard
 			title="Discord Special"
 			description="A drinking game made specially for discord servers!"
 			type="discord-special"
+			on:click={handleChooseGame}
 		/>
 		<CategoryCard
 			title="Spicy & Hot"
 			description="A drinking game in which players are answering uncomfortable personal questions."
 			type="spicy-and-hot"
+			on:click={handleChooseGame}
 		/>
 		<CategoryCard
 			title="Discord NSFW"
@@ -55,6 +67,7 @@
 			title="Dare or Drink NSFW"
 			description="A drinking game made for dares to do online infront of the camera, with NSFW seggzy dares."
 			type="dare-or-drink-nsfw"
+
 		/>
 		<CategoryCard
 			title="More games coming soon!"

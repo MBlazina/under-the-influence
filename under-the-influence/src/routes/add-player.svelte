@@ -3,7 +3,8 @@
 	import Logo from '../components/Logo.svelte';
 	import Header from '../components/Header.svelte';
 	import { onMount } from 'svelte';
-	import { players } from '../stores/players.js';
+	import { activeGame, players, playersAdded } from '../stores/players.js';
+import { goto } from '$app/navigation';
 
 	let numPlayers = 1;
 
@@ -23,7 +24,6 @@
 
 		players.append(newInput);
 		addPlaceholder();
-
 		addRemove();
 	}
 
@@ -41,22 +41,22 @@
 		}
 	}
 	
-	let addedPlayers = [];
-	$: playing = addedPlayers.length;
-	let playersSet = false;
 	function handleSubmit() {
-		addedPlayers = [];
+		$players = [];
 		const tempPlayers = document.querySelectorAll('.player-input');
 
 		for (let i = 0; i < tempPlayers.length; i++) {
 			if (tempPlayers[i].value) {
-				addedPlayers.push(tempPlayers[i].value);
+				$players = [...$players, tempPlayers[i].value];
 			}
 		}
-		console.log(addedPlayers);
-		playersSet = true;
-		$players.update = true;
-		$players = [...$players, addedPlayers];
+		$playersAdded = true;
+		console.log($players);
+
+		if($players.length > 1){
+			goto($activeGame)
+		}
+		
 	}
 
 </script>
@@ -69,9 +69,8 @@
 	<Header>
 		<Logo />
 	</Header>
-	<p>players set: {$players} ---- {$players.length}</p>
 	<h2>Add players</h2>
-	<span>{numPlayers}</span>
+	{$activeGame}
 	<form id="players" on:submit|preventDefault={handleSubmit} class="players-form" action="">
 		<div class="inputWrapper">
 			<input type="text" placeholder="Player 1" class="player-input" />
@@ -80,10 +79,10 @@
 	</form>
 	<button class="add-players-btn" on:click={handleAppend}>Add a player</button>
 	<input class="start-game-btn" form="players" type="submit" value="START THE GAME" />
-	{#if playersSet == true && playing < 2}
-	<p>Add at least two players {playing}</p>
+	{#if $playersAdded == true && $players.length < 2  }
+	<p>Add at least two players!</p>
 	{/if}
-	
+
 </main>
 
 <style lang="scss">
