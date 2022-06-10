@@ -32,7 +32,8 @@
 		}
 		&.white {
 			background: $white;
-			color: #000000;
+			color: $dark-blue;
+			border: 1px solid $dark-blue;
 		}
 		&.grey {
 			background: #000;
@@ -51,5 +52,9 @@
         content: url('/icons/discord-white.svg');
       }
     }
+		&.small {
+			height: 45px;
+			font-size: 14px;
+		}
 	}
 </style>

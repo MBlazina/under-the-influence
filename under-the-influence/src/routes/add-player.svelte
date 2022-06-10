@@ -57,7 +57,7 @@
 			if ($activeGame.length == 0) {
 				goto('/choose-game');
 			} else {
-				goto($activeGame);
+				goto('/game/' + $activeGame);
 			}
 		}
 	}
@@ -71,6 +71,7 @@
 	<Header>
 		<Logo />
 	</Header>
+	<!-- TODO fill players if already added in store-->
 	<h2>Add players</h2>
 	<h3>Selecded Game {$activeGame}</h3>
 	{$activeGame}
