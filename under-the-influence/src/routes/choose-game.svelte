@@ -5,6 +5,7 @@
 	import Header from '../components/Header.svelte';
 	import { playersAdded, activeGame } from '../stores/players';
 
+	$activeGame = [];
 	function handleChooseGame(){
 		console.log(this.dataset.gamemode);
 		$activeGame = this.dataset.gamemode;

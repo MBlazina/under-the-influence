@@ -2,9 +2,8 @@
 	import Button from '../components/Button.svelte';
 	import Logo from '../components/Logo.svelte';
 	import Header from '../components/Header.svelte';
-	import { onMount } from 'svelte';
 	import { activeGame, players, playersAdded } from '../stores/players.js';
-import { goto } from '$app/navigation';
+	import { goto } from '$app/navigation';
 
 	let numPlayers = 1;
 
@@ -40,7 +39,7 @@ import { goto } from '$app/navigation';
 			removeIcons[i].addEventListener('click', removePlayer);
 		}
 	}
-	
+
 	function handleSubmit() {
 		$players = [];
 		const tempPlayers = document.querySelectorAll('.player-input');
@@ -52,13 +51,16 @@ import { goto } from '$app/navigation';
 		}
 		$playersAdded = true;
 		console.log($players);
+		console.log('selected game: ' + $activeGame.length);
 
-		if($players.length > 1){
-			goto($activeGame)
+		if ($players.length > 1) {
+			if ($activeGame.length == 0) {
+				goto('/choose-game');
+			} else {
+				goto($activeGame);
+			}
 		}
-		
 	}
-
 </script>
 
 <svelte:head>
@@ -70,6 +72,7 @@ import { goto } from '$app/navigation';
 		<Logo />
 	</Header>
 	<h2>Add players</h2>
+	<h3>Selecded Game {$activeGame}</h3>
 	{$activeGame}
 	<form id="players" on:submit|preventDefault={handleSubmit} class="players-form" action="">
 		<div class="inputWrapper">
@@ -79,10 +82,9 @@ import { goto } from '$app/navigation';
 	</form>
 	<button class="add-players-btn" on:click={handleAppend}>Add a player</button>
 	<input class="start-game-btn" form="players" type="submit" value="START THE GAME" />
-	{#if $playersAdded == true && $players.length < 2  }
-	<p>Add at least two players!</p>
+	{#if $playersAdded == true && $players.length < 2}
+		<p>Add at least two players!</p>
 	{/if}
-
 </main>
 
 <style lang="scss">

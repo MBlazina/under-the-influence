@@ -8,5 +8,5 @@ import Header from "../components/Header.svelte";
   <Header >
     <Logo />
   </Header>
-  Never Have I Ever
+  Get to know each other
 </main>
