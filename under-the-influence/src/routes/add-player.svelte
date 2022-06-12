@@ -4,6 +4,7 @@
 	import Header from '../components/Header.svelte';
 	import { activeGame, players, playersAdded } from '../stores/players.js';
 	import { goto } from '$app/navigation';
+import { query_selector_all } from 'svelte/internal';
 
 	let numPlayers = 1;
 
@@ -61,6 +62,31 @@
 			}
 		}
 	}
+
+	//TEST
+	function handleDeletePlayer(selectedPlayer) {
+		console.log(selectedPlayer);
+		$players = $players.filter(function (player, index, arr) {
+			if (player != selectedPlayer) return player;
+		});
+		console.log($players);
+	}
+	function updatePlayers() {
+		$players = [];
+		const tempPlayers = document.querySelectorAll('input');
+
+		for (let i = 0; i < tempPlayers.length; i++) {
+			if (tempPlayers[i].value) {
+				$players = [...$players, tempPlayers[i].value];
+			}
+		}
+		console.log($players);
+	}
+function handleAddPlayer(){
+	updatePlayers()
+	$players = [...$players, 'Player ' + parseInt($players.length + 1)];
+}
+
 </script>
 
 <svelte:head>
@@ -73,7 +99,7 @@
 	</Header>
 	<!-- TODO fill players if already added in store-->
 	<h2>Add players</h2>
-	<h3>Selecded Game {$activeGame}</h3>
+	<!-- 	<h3>Selecded Game {$activeGame}</h3>
 	{$activeGame}
 	<form id="players" on:submit|preventDefault={handleSubmit} class="players-form" action="">
 		<div class="inputWrapper">
@@ -85,7 +111,19 @@
 	<input class="start-game-btn" form="players" type="submit" value="START THE GAME" />
 	{#if $playersAdded == true && $players.length < 2}
 		<p>Add at least two players!</p>
-	{/if}
+	{/if} -->
+{#if $players.length == 0}
+	<input type="text" placeholder="Player 1">
+	<input type="text" placeholder="Player 2">
+{/if}
+
+	{#each $players as player}
+		<input type="text" value={player} />
+		<button on:click={handleDeletePlayer(player)}>X</button>
+	{/each}
+	<button class="add-players-btn" on:click={handleAddPlayer}>Add a player</button>
+	<button>START THE GAME</button>
+	<p>{$players}</p>
 </main>
 
 <style lang="scss">
