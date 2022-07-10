@@ -2,9 +2,9 @@
 	import Button from '../components/Button.svelte';
 	import Logo from '../components/Logo.svelte';
 	import Header from '../components/Header.svelte';
-	import { activeGame, players, playersAdded } from '../stores/players.js';
+	import { activeGame, players, playersValid } from '../stores/players.js';
 	import { goto } from '$app/navigation';
-import { query_selector_all } from 'svelte/internal';
+	import { query_selector_all } from 'svelte/internal';
 
 	let numPlayers = 1;
 
@@ -41,7 +41,7 @@ import { query_selector_all } from 'svelte/internal';
 		}
 	}
 
-	function handleSubmit() {
+/* 	function handleSubmit() {
 		$players = [];
 		const tempPlayers = document.querySelectorAll('.player-input');
 
@@ -61,7 +61,7 @@ import { query_selector_all } from 'svelte/internal';
 				goto('/game/' + $activeGame);
 			}
 		}
-	}
+	} */
 
 	//TEST
 	function handleDeletePlayer(selectedPlayer) {
@@ -82,47 +82,80 @@ import { query_selector_all } from 'svelte/internal';
 		}
 		console.log($players);
 	}
-function handleAddPlayer(){
-	updatePlayers()
-	$players = [...$players, 'Player ' + parseInt($players.length + 1)];
-}
+	function handleAddPlayer() {
+		updatePlayers();
+		$players = [...$players, 'Player ' + parseInt($players.length + 1)];
+	}
+function handleStartGame() {
+		updatePlayers();
+		console.log($players);
+	}
 
+	//TEST VALIDATE
+	function handleValidate(el) {
+		/* const inputValue = el.target.value; */
+		const arr = document.querySelectorAll('input');
+		const inputs = arr.length;
+
+		for (let i = 0; i < inputs; i++) {
+			const currentInput = arr[i];
+			const inputValue = arr[i].value;
+
+			let arrSum = 0;
+			for (let j = 0; j < inputs; j++) {
+				if (inputValue === arr[j].value) {
+					arrSum += 1;
+				}
+			}
+			if (arrSum > 1 || inputValue == '') {
+				currentInput.classList.add('duplicate');
+			} else {
+				currentInput.classList.remove('duplicate');
+			}
+		}
+		const isValid = document.querySelectorAll('input.duplicate').length === 0;
+		if(isValid) {
+			$playersValid = true;
+		}
+		else {
+			$playersValid = false;
+		}
+		console.log('players valid: ' + $playersValid);
+		
+	}
+
+	//let hasDuplicatePlayers = document.querySelectorAll('input');
 </script>
 
 <svelte:head>
 	<title>Add players</title>
+	<style>
+		.duplicate {
+			color: #FF5353;
+		}
+	</style>
 </svelte:head>
 
 <main>
 	<Header>
 		<Logo />
 	</Header>
-	<!-- TODO fill players if already added in store-->
+
 	<h2>Add players</h2>
-	<!-- 	<h3>Selecded Game {$activeGame}</h3>
-	{$activeGame}
-	<form id="players" on:submit|preventDefault={handleSubmit} class="players-form" action="">
-		<div class="inputWrapper">
-			<input type="text" placeholder="Player 1" class="player-input" />
-			<div class="removeIcon" />
-		</div>
-	</form>
-	<button class="add-players-btn" on:click={handleAppend}>Add a player</button>
-	<input class="start-game-btn" form="players" type="submit" value="START THE GAME" />
-	{#if $playersAdded == true && $players.length < 2}
-		<p>Add at least two players!</p>
-	{/if} -->
-{#if $players.length == 0}
-	<input type="text" placeholder="Player 1">
-	<input type="text" placeholder="Player 2">
-{/if}
+
+	{#if $players.length == 0}
+		<input type="text" placeholder="Player 1" />
+		<button disabled>X</button>
+		<input type="text" placeholder="Player 2" />
+		<button disabled>X</button>
+	{/if}
 
 	{#each $players as player}
-		<input type="text" value={player} />
+		<input type="text" value={player} on:input={handleValidate}/>
 		<button on:click={handleDeletePlayer(player)}>X</button>
 	{/each}
 	<button class="add-players-btn" on:click={handleAddPlayer}>Add a player</button>
-	<button>START THE GAME</button>
+	<a class="start-game-btn" class:enabled="{$playersValid == true}" on:click={handleValidate}>START THE GAME</a>
 	<p>{$players}</p>
 </main>
 
@@ -194,9 +227,15 @@ function handleAddPlayer(){
 		font-weight: 900;
 		font-size: 18px;
 
-		background: $dark-blue;
+		background: $grey;
 		color: $white;
-
+pointer-events: none;
 		cursor: pointer;
+		&.enabled{
+			pointer-events: all;
+			background: $dark-blue;
+		}
 	}
+
+
 </style>
