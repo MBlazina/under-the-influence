@@ -3,7 +3,7 @@
 	import Button from '../components/Button.svelte';
 	import Logo from '../components/Logo.svelte';
 	import Header from '../components/Header.svelte';
-	import { playersAdded, activeGame } from '../stores/players';
+	import { playersValid, activeGame } from '../stores/players';
 
 	//$activeGame = [];
 	function handleChooseGame(){

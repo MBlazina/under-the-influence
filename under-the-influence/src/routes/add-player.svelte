@@ -8,15 +8,15 @@
 
 	let numPlayers = 1;
 
-	function addPlaceholder() {
+/* 	function addPlaceholder() {
 		let playerInputs = document.querySelectorAll('.inputWrapper > input');
 		let numPlayers = playerInputs.length;
 		for (let i = 0; i < numPlayers; i++) {
 			playerInputs[i].setAttribute('placeholder', 'Player ' + (i + 1));
 		}
-	}
+	} */
 
-	function handleAppend() {
+/* 	function handleAppend() {
 		let players = document.querySelector('.players-form');
 		let inputWrapper = document.querySelector('.inputWrapper');
 		let newInput = inputWrapper.cloneNode(true);
@@ -25,73 +25,7 @@
 		players.append(newInput);
 		addPlaceholder();
 		addRemove();
-	}
-
-	function removePlayer() {
-		let currentPlayersNumber = document.querySelectorAll('.inputWrapper').length;
-		if (currentPlayersNumber > 1) {
-			this.parentElement.remove();
-			addPlaceholder();
-		}
-	}
-	function addRemove() {
-		let removeIcons = document.querySelectorAll('.removeIcon');
-		for (let i = 0; i < removeIcons.length; i++) {
-			removeIcons[i].addEventListener('click', removePlayer);
-		}
-	}
-
-/* 	function handleSubmit() {
-		$players = [];
-		const tempPlayers = document.querySelectorAll('.player-input');
-
-		for (let i = 0; i < tempPlayers.length; i++) {
-			if (tempPlayers[i].value) {
-				$players = [...$players, tempPlayers[i].value];
-			}
-		}
-		$playersAdded = true;
-		console.log($players);
-		console.log('selected game: ' + $activeGame.length);
-
-		if ($players.length > 1) {
-			if ($activeGame.length == 0) {
-				goto('/choose-game');
-			} else {
-				goto('/game/' + $activeGame);
-			}
-		}
 	} */
-
-	//TEST
-	function handleDeletePlayer(selectedPlayer) {
-		console.log(selectedPlayer);
-		$players = $players.filter(function (player, index, arr) {
-			if (player != selectedPlayer) return player;
-		});
-		console.log($players);
-	}
-	function updatePlayers() {
-		$players = [];
-		const tempPlayers = document.querySelectorAll('input');
-
-		for (let i = 0; i < tempPlayers.length; i++) {
-			if (tempPlayers[i].value) {
-				$players = [...$players, tempPlayers[i].value];
-			}
-		}
-		console.log($players);
-	}
-	function handleAddPlayer() {
-		updatePlayers();
-		$players = [...$players, 'Player ' + parseInt($players.length + 1)];
-	}
-function handleStartGame() {
-		updatePlayers();
-		console.log($players);
-	}
-
-	//TEST VALIDATE
 	function handleValidate(el) {
 		/* const inputValue = el.target.value; */
 		const arr = document.querySelectorAll('input');
@@ -123,7 +57,58 @@ function handleStartGame() {
 		console.log('players valid: ' + $playersValid);
 		
 	}
+	/* function removePlayer() {
+		let currentPlayersNumber = document.querySelectorAll('.inputWrapper').length;
+		if (currentPlayersNumber > 1) {
+			this.parentElement.remove();
+			addPlaceholder();
+		}
+	}
+	function addRemove() {
+		let removeIcons = document.querySelectorAll('.removeIcon');
+		for (let i = 0; i < removeIcons.length; i++) {
+			removeIcons[i].addEventListener('click', removePlayer);
+		}
+	} */
 
+
+
+	//TEST
+	
+	function updatePlayers() {
+		$players = [];
+		const tempPlayers = document.querySelectorAll('input');
+
+		for (let i = 0; i < tempPlayers.length; i++) {
+			if (tempPlayers[i].value) {
+				$players = [...$players, tempPlayers[i].value];
+			}
+		}
+
+	}
+
+function handleStartGame() {
+		updatePlayers();
+
+	}
+
+	//TEST VALIDATE
+
+	function handleAddPlayer() {
+		
+		updatePlayers();
+		$players = [...$players, 'Player ' + parseInt($players.length + 1)];
+		handleValidate();
+		
+	}
+	function handleDeletePlayer(selectedPlayer) {
+		console.log(selectedPlayer);
+		$players = $players.filter(function (player, index, arr) {
+			if (player != selectedPlayer) return player;
+		});
+		console.log($players);
+		handleValidate();
+	}
 	//let hasDuplicatePlayers = document.querySelectorAll('input');
 </script>
 
@@ -144,9 +129,9 @@ function handleStartGame() {
 	<h2>Add players</h2>
 
 	{#if $players.length == 0}
-		<input type="text" placeholder="Player 1" />
+		<input type="text" placeholder="Player 1" on:input={handleValidate}/>
 		<button disabled>X</button>
-		<input type="text" placeholder="Player 2" />
+		<input type="text" placeholder="Player 2" on:input={handleValidate}/>
 		<button disabled>X</button>
 	{/if}
 
@@ -155,7 +140,7 @@ function handleStartGame() {
 		<button on:click={handleDeletePlayer(player)}>X</button>
 	{/each}
 	<button class="add-players-btn" on:click={handleAddPlayer}>Add a player</button>
-	<a class="start-game-btn" class:enabled="{$playersValid == true}" on:click={handleValidate}>START THE GAME</a>
+	<a href={$activeGame != '' ? 'game/' + $activeGame : '/choose-game'} class="start-game-btn" class:enabled="{$playersValid == true}" on:click={handleValidate}>START THE GAME</a>
 	<p>{$players}</p>
 </main>
 
