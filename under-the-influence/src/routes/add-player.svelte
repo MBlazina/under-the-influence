@@ -6,7 +6,7 @@
 	import { goto } from '$app/navigation';
 	import { query_selector_all } from 'svelte/internal';
 
-	$: tempPlayers = [
+	$players = [
 		{
 			id: 1,
 			name: 'Player 1'
@@ -18,14 +18,14 @@
 	];
 
 	function handleAddPlayer() {
-		console.log(tempPlayers[tempPlayers.length - 1].id);
-		const lastPlayerId = tempPlayers[tempPlayers.length - 1].id;
+		console.log($players[$players.length - 1].id);
+		const lastPlayerId = $players[$players.length - 1].id;
 		const nextPlayerId = lastPlayerId + 1;
-		tempPlayers = [...tempPlayers, { id: nextPlayerId, name: 'Player ' + nextPlayerId }];
+		$players = [...$players, { id: nextPlayerId, name: 'Player ' + nextPlayerId }];
 	}
 	function handleDeletePlayer(selectedPlayer) {
-		if (tempPlayers.length > 1) {
-			tempPlayers = tempPlayers.filter((data) => data.id != selectedPlayer);
+		if ($players.length > 1) {
+			$players = $players.filter((data) => data.id != selectedPlayer);
 		}
 	}
 </script>
@@ -44,13 +44,13 @@
 		<Logo />
 	</Header>
 
-	{#each tempPlayers as player}
+	{#each $players as player}
 		<input type="text" placeholder={player.name} bind:value={player.name} />
 		<button on:click={handleDeletePlayer(player.id)}>X</button>
 	{/each}
 
 	<button on:click={handleAddPlayer}>Add</button>
-
+{JSON.stringify($players)}
 	<h2>Add players</h2>
 	<form id="playersForm" action="" />
 	<a href="">Add Player</a>

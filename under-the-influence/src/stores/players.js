@@ -2,11 +2,11 @@ import { writable } from "svelte/store";
 
 export let players = writable([
   {
-    "id": "player1",
+    "id": 1,
     "name": "Player 1"
   },
   {
-    "id": "player2",
+    "id": 2,
     "name": "Player 2"
   }
 ]);
