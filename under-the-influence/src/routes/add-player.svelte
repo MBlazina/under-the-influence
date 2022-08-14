@@ -4,29 +4,54 @@
 	import Header from '../components/Header.svelte';
 	import { activeGame, players, playersValid } from '../stores/players.js';
 	import { goto } from '$app/navigation';
-	import { query_selector_all } from 'svelte/internal';
 
-	$players = [
-		{
-			id: 1,
-			name: 'Player 1'
-		},
-		{
-			id: 2,
-			name: 'Player 2'
-		}
-	];
-
+	let isValid = true;
 	function handleAddPlayer() {
-		console.log($players[$players.length - 1].id);
 		const lastPlayerId = $players[$players.length - 1].id;
 		const nextPlayerId = lastPlayerId + 1;
 		$players = [...$players, { id: nextPlayerId, name: 'Player ' + nextPlayerId }];
+		handleValidation();
 	}
 	function handleDeletePlayer(selectedPlayer) {
+
 		if ($players.length > 1) {
 			$players = $players.filter((data) => data.id != selectedPlayer);
+			isValid = true;
+		} else if ($players.length < 2){
+			isValid = false;
 		}
+		handleValidation();
+	}
+
+	function handleValidation() {
+		
+		const playersForm = document.querySelector('#playersForm');
+		const playersInputs = playersForm.querySelectorAll('.playerInput');
+		const numberPlayers = playersInputs.length;
+
+		for (let i = 0; i < numberPlayers; i++) {
+			const playerName = playersInputs[i].value;
+			const samePlayerName = document.querySelectorAll(
+				'.playerInput[placeholder="' + playerName + '"]'
+			).length;
+
+			if (samePlayerName > 1) {
+				playersInputs[i].classList.add('duplicate');
+			} else {
+				playersInputs[i].classList.remove('duplicate');
+			}
+		}
+
+		let hasDuplicate = playersForm.querySelectorAll('.duplicate').length;
+		if (hasDuplicate > 1 || $players.length <2) {
+			isValid = false;
+		} else {
+			isValid = true;
+		}
+	}
+	function handleSubmit() {
+		console.log('asdasdas');
+		goto('/choose-game')
 	}
 </script>
 
@@ -44,16 +69,29 @@
 		<Logo />
 	</Header>
 
-	{#each $players as player}
-		<input type="text" placeholder={player.name} bind:value={player.name} />
-		<button on:click={handleDeletePlayer(player.id)}>X</button>
-	{/each}
+	<form id="playersForm" on:submit|preventDefault={handleSubmit}>
+		{#each $players as player}
+			<div class="form-group">
+				<input
+					class="playerInput"
+					type="text"
+					placeholder={player.name}
+					bind:value={player.name}
+					on:keyup={handleValidation}
+				/>
+				<button on:click|preventDefault={handleDeletePlayer(player.id)}>X</button>
+			</div>
+		{/each}
+		<p>{$activeGame}</p>
+		<button on:click|preventDefault={handleAddPlayer}>Add</button>
+		<input
+			type="submit"
+			value={$activeGame == '' ? 'Choose Game' : 'Start "' + $activeGame + '"'}
+			disabled={!isValid}
+		/>
+	</form>
 
-	<button on:click={handleAddPlayer}>Add</button>
-{JSON.stringify($players)}
-	<h2>Add players</h2>
-	<form id="playersForm" action="" />
-	<a href="">Add Player</a>
+	{JSON.stringify($players)}
 </main>
 
 <style lang="scss">
@@ -132,5 +170,10 @@
 			pointer-events: all;
 			background: $dark-blue;
 		}
+	}
+	form {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 </style>

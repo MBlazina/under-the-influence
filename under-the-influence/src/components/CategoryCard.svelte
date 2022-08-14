@@ -1,5 +1,5 @@
 <script>
-import { activeGame, playersValid } from "../stores/players";
+import { activeGameLink, playersValid } from "../stores/players";
 
 
 
@@ -13,7 +13,7 @@ import { activeGame, playersValid } from "../stores/players";
 </script>
 
 <!-- <a href="/{link}" class={type}> -->
-<a href={$playersValid == false ? '/add-player' : 'game/' + $activeGame} class={type} on:click data-gamemode={type}>
+<a href={$playersValid == false ? '/add-player' : 'game/' + $activeGameLink} class={type} on:click data-gamemodelink={type} data-gamemode={title}>
 	<div class="category-icon {type}" />
 	<div class="content">
 		<h3>{title}</h3>

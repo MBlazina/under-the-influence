@@ -3,12 +3,13 @@
 	import Button from '../components/Button.svelte';
 	import Logo from '../components/Logo.svelte';
 	import Header from '../components/Header.svelte';
-	import { playersValid, activeGame } from '../stores/players';
+	import { playersValid, activeGameLink, activeGame } from '../stores/players';
 
 	//$activeGame = [];
 	function handleChooseGame(){
 		console.log(this.dataset.gamemode);
-		$activeGame = this.dataset.gamemode;
+		$activeGameLink = this.dataset.gamemodelink;
+		$activeGame = this.dataset.gamemode
 	}
 </script>
 
