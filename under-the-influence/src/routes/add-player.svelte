@@ -2,10 +2,28 @@
 	import Button from '../components/Button.svelte';
 	import Logo from '../components/Logo.svelte';
 	import Header from '../components/Header.svelte';
-	import { activeGame, players, playersValid } from '../stores/players.js';
+	import {
+		activeGame,
+		activeGameLink,
+		players,
+		playersValid,
+		gameInProgress
+	} from '../stores/players.js';
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
 
-	let isValid = true;
+	let gameButtonText = '';
+	onMount(() => {
+		$playersValid = true;
+
+		if ($activeGame == '') {
+			gameButtonText = 'Choose Game';
+		} else if ($activeGame != '' && $gameInProgress == false) {
+			gameButtonText = 'Start ' + $activeGame;
+		} else if ($activeGame != '' && $gameInProgress) {
+			gameButtonText = 'Resume "' + $activeGame + '"';
+		}
+	});
 	function handleAddPlayer() {
 		const lastPlayerId = $players[$players.length - 1].id;
 		const nextPlayerId = lastPlayerId + 1;
@@ -13,18 +31,16 @@
 		handleValidation();
 	}
 	function handleDeletePlayer(selectedPlayer) {
-
 		if ($players.length > 1) {
 			$players = $players.filter((data) => data.id != selectedPlayer);
-			isValid = true;
-		} else if ($players.length < 2){
-			isValid = false;
+			$playersValid = true;
+		} else if ($players.length < 2) {
+			$playersValid = false;
 		}
 		handleValidation();
 	}
 
 	function handleValidation() {
-		
 		const playersForm = document.querySelector('#playersForm');
 		const playersInputs = playersForm.querySelectorAll('.playerInput');
 		const numberPlayers = playersInputs.length;
@@ -43,15 +59,20 @@
 		}
 
 		let hasDuplicate = playersForm.querySelectorAll('.duplicate').length;
-		if (hasDuplicate > 1 || $players.length <2) {
-			isValid = false;
+		if (hasDuplicate > 1 || $players.length < 2) {
+			$playersValid = false;
 		} else {
-			isValid = true;
+			$playersValid = true;
 		}
 	}
 	function handleSubmit() {
 		console.log('asdasdas');
-		goto('/choose-game')
+		if ($activeGame == '') {
+			goto('/choose-game');
+		} else {
+			goto('game/' + $activeGameLink);
+			$gameInProgress = true;
+		}
 	}
 </script>
 
@@ -84,11 +105,9 @@
 		{/each}
 		<p>{$activeGame}</p>
 		<button on:click|preventDefault={handleAddPlayer}>Add</button>
-		<input
-			type="submit"
-			value={$activeGame == '' ? 'Choose Game' : 'Start "' + $activeGame + '"'}
-			disabled={!isValid}
-		/>
+		<input type="submit" value={gameButtonText} disabled={!$playersValid} />
+
+		<!-- value={$activeGame == '' ? 'Choose Game' : 'Start "' + $activeGame + '"'} -->
 	</form>
 
 	{JSON.stringify($players)}

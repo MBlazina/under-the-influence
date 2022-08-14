@@ -1,12 +1,11 @@
 <script>
 import Logo from "../../components/Logo.svelte";
 import Header from "../../components/Header.svelte";
+import {players} from "../../stores/players";
 
 </script>
 
 <main>
-  <Header >
-    <Logo />
-  </Header>
+  <p>{JSON.stringify($players)}</p>
   Spicy and Hot
 </main>

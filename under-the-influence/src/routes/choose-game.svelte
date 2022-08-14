@@ -7,7 +7,7 @@
 
 	//$activeGame = [];
 	function handleChooseGame(){
-		console.log(this.dataset.gamemode);
+		console.log(this.dataset.gamemodelink);
 		$activeGameLink = this.dataset.gamemodelink;
 		$activeGame = this.dataset.gamemode
 	}

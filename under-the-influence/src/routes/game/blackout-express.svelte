@@ -2,10 +2,10 @@
 import Logo from "../../components/Logo.svelte";
 import Header from "../../components/Header.svelte";
 import Button from "../../components/Button.svelte";
-
+import {players} from "../../stores/players";
 </script>
 
 <main>
- 
+  <p>{JSON.stringify($players)}</p>
   Blackout express
 </main>
