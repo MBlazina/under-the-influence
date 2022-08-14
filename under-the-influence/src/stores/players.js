@@ -14,3 +14,4 @@ export let playersValid = writable(false);
 export let activeGame = writable('');
 export let activeGameLink = writable('');
 export let gameInProgress = writable(false);
+export const questionsPerPlayer = 5;
